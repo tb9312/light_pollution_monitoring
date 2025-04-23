@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useState } from "react";
+import Home from "./pages/Home"; // Đảm bảo Home được export mặc định
+import MapView from "./components/MapView"; // Đảm bảo MapView được export mặc định
+import Navbar from "./components/Navbar"; // Đảm bảo Navbar được export mặc định
 
 function App() {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (query) => {
+    console.log("Search query received in App:", query); // Log search query from Navbar
+    setSearchQuery(query); // Update search query
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar onSearch={handleSearch} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/map" element={<MapView searchQuery={searchQuery} />} />
+      </Routes>
+    </Router>
   );
 }
 
