@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Results = () => {
-  // Giả lập danh sách kết quả đo
-  const [results, setResults] = useState([
-    { id: 1, name: "Điểm đo 1", lat: 21.0285, lng: 105.8542, pollution: 50 },
-    { id: 2, name: "Điểm đo 2", lat: 21.035, lng: 105.85, pollution: 70 }
-  ]);
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    // Fetch data from the backend
+    fetch("http://localhost:5000/api/sensor")
+      .then((response) => response.json())
+      .then((data) => setResults(data))
+      .catch((error) => console.error("❌ Error fetching data:", error));
+  }, []);
 
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
